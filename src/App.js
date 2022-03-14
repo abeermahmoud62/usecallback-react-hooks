@@ -1,25 +1,27 @@
-import {useState , useCallback, useMemo } from 'react'
-import Comp1 from './com/Comp1';
-import Comp2 from './com/Comp2';
+import {useState  ,useCallback } from 'react'
+import Input from './components/Input';
+import Sum from './components/Sum';
 
-function sum(a, b) {
-  console.log('sum() ran');
-  return a + b;
-}
+
 
 export default function App() {
-  const [val1, setVal1] = useState(0);
-  const [val2, setVal2] = useState(0);
-  const [name, setName] = useState('Jim');
+  const [value1, setValue1] = useState(0);
+  const [value2, setValue2] = useState(0);
   
-  const result = useCallback(sum(val1, val2), [val1, val2]);
-  // const result = useMemo(() => sum(val1, val2), [val1, val2]);
+    const value1Handle = useCallback( (e)=>{
+        setValue1(parseInt(e.target.value))
+    },[value1])
+    const value2Handle = useCallback((e)=>{
+      setValue2(parseInt(e.target.value))
+    },[value2])
 
   return (
-    <div className="App">
-      <Comp1 val1={val1} val2={val2} setVal1={setVal1} setVal2={setVal2} />
-      <Comp2 name={name} setName={setName} />
-      <p>{result}</p>
+    <div className="App" style={{display:"flex" , flexDirection:"column" , alignItems:"center"}}>
+      <Input value={value1} handleChange={value1Handle} />
+      +
+      <Input value={value2} handleChange={value2Handle} />
+
+      <Sum value1={value1} value2={value2} />
     </div>
   );
 }
